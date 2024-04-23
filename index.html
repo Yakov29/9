@@ -46,7 +46,7 @@
     <script>
         function addTask() {
             var taskInput = document.getElementById("taskInput").value;
-            if (taskInput.trim() !== "") {
+            if (taskInput !== "") {
                 var taskList = JSON.parse(localStorage.getItem("tasks")) || [];
                 taskList.push({ task: taskInput, completed: false });
                 localStorage.setItem("tasks", JSON.stringify(taskList));
@@ -83,7 +83,7 @@
 
         function addBookmark() {
             var bookmarkInput = document.getElementById("bookmarkInput").value;
-            if (bookmarkInput.trim() !== "") {
+            if (bookmarkInput !== "") {
                 var bookmarkList = JSON.parse(localStorage.getItem("bookmarks")) || [];
                 bookmarkList.push(bookmarkInput);
                 localStorage.setItem("bookmarks", JSON.stringify(bookmarkList));
