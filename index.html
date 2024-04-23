@@ -45,9 +45,9 @@
 
     <script>
         function addTask() {
-            var taskInput = document.getElementById("taskInput").value;
+            let taskInput = document.getElementById("taskInput").value;
             if (taskInput !== "") {
-                var taskList = JSON.parse(localStorage.getItem("tasks")) || [];
+                let taskList = JSON.parse(localStorage.getItem("tasks")) || [];
                 taskList.push({ task: taskInput, completed: false });
                 localStorage.setItem("tasks", JSON.stringify(taskList));
                 displayTasks();
@@ -56,18 +56,18 @@
         }
 
         function displayTasks() {
-            var taskList = JSON.parse(localStorage.getItem("tasks")) || [];
-            var taskListElement = document.getElementById("taskList");
+            let taskList = JSON.parse(localStorage.getItem("tasks")) || [];
+            let taskListElement = document.getElementById("taskList");
             taskListElement.innerHTML = "";
             taskList.forEach(function (task, index) {
-                var listItem = document.createElement("li");
+                let listItem = document.createElement("li");
                 listItem.innerHTML = `<input type="checkbox" onchange="toggleTask(${index})" ${task.completed ? "checked" : ""}> ${task.task}`;
                 taskListElement.appendChild(listItem);
             });
         }
 
         function toggleTask(index) {
-            var taskList = JSON.parse(localStorage.getItem("tasks")) || [];
+            let taskList = JSON.parse(localStorage.getItem("tasks")) || [];
             taskList[index].completed = !taskList[index].completed;
             localStorage.setItem("tasks", JSON.stringify(taskList));
             displayTasks();
@@ -75,16 +75,16 @@
 
         document.getElementById("formData").addEventListener("submit", function(event) {
             event.preventDefault();
-            var name = document.getElementById("name").value;
-            var email = document.getElementById("email").value;
+            let name = document.getElementById("name").value;
+            let email = document.getElementById("email").value;
             localStorage.setItem("formData", JSON.stringify({ name: name, email: email }));
             alert("Form data saved successfully!");
         });
 
         function addBookmark() {
-            var bookmarkInput = document.getElementById("bookmarkInput").value;
+            let bookmarkInput = document.getElementById("bookmarkInput").value;
             if (bookmarkInput !== "") {
-                var bookmarkList = JSON.parse(localStorage.getItem("bookmarks")) || [];
+                let bookmarkList = JSON.parse(localStorage.getItem("bookmarks")) || [];
                 bookmarkList.push(bookmarkInput);
                 localStorage.setItem("bookmarks", JSON.stringify(bookmarkList));
                 displayBookmarks();
@@ -93,11 +93,11 @@
         }
 
         function displayBookmarks() {
-            var bookmarkList = JSON.parse(localStorage.getItem("bookmarks")) || [];
-            var bookmarkListElement = document.getElementById("bookmarkList");
+            let bookmarkList = JSON.parse(localStorage.getItem("bookmarks")) || [];
+            let bookmarkListElement = document.getElementById("bookmarkList");
             bookmarkListElement.innerHTML = "";
             bookmarkList.forEach(function (bookmark) {
-                var listItem = document.createElement("li");
+                let listItem = document.createElement("li");
                 listItem.textContent = bookmark;
                 bookmarkListElement.appendChild(listItem);
             });
@@ -105,12 +105,12 @@
 
         document.getElementById("contactForm").addEventListener("submit", function(event) {
             event.preventDefault();
-            var name = document.getElementById("contactName").value;
-            var surname = document.getElementById("surname").value;
-            var phone = document.getElementById("phone").value;
-            var email = document.getElementById("contactEmail").value;
-            var contact = { name: name, surname: surname, phone: phone, email: email };
-            var contacts = JSON.parse(localStorage.getItem("contacts")) || [];
+            let name = document.getElementById("contactName").value;
+            let surname = document.getElementById("surname").value;
+            let phone = document.getElementById("phone").value;
+            let email = document.getElementById("contactEmail").value;
+            let contact = { name: name, surname: surname, phone: phone, email: email };
+            let contacts = JSON.parse(localStorage.getItem("contacts")) || [];
             contacts.push(contact);
             localStorage.setItem("contacts", JSON.stringify(contacts));
             displayContacts();
@@ -118,11 +118,11 @@
         });
 
         function displayContacts() {
-            var contacts = JSON.parse(localStorage.getItem("contacts")) || [];
-            var contactListElement = document.getElementById("contactList");
+            let contacts = JSON.parse(localStorage.getItem("contacts")) || [];
+            let contactListElement = document.getElementById("contactList");
             contactListElement.innerHTML = "";
             contacts.forEach(function (contact) {
-                var listItem = document.createElement("li");
+                let listItem = document.createElement("li");
                 listItem.textContent = contact.name + " " + contact.surname + " - " + contact.phone + ", " + contact.email;
                 contactListElement.appendChild(listItem);
             });
