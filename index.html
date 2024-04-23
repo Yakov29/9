@@ -3,43 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tasks</title>
 </head>
 <body>
-    <h1>Todo List</h1>
-    <form id="taskForm">
-        <input type="text" id="taskInput" placeholder="Enter task">
-        <button type="submit">Add Task</button>
-    </form>
+
+    <!-- Todo List -->
+    <h2>Todo List</h2>
+    <input type="text" id="taskInput" placeholder="Enter task">
+    <button onclick="addTask()">Add Task</button>
     <ul id="taskList"></ul>
 
+    <!-- Form Data Storage -->
+    <h2>Form Data Storage</h2>
+    <form id="formData">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name"><br><br>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email"><br><br>
+        <button type="submit">Save</button>
+    </form>
+
+    <!-- Bookmarks -->
+    <h2>Bookmarks</h2>
+    <input type="text" id="bookmarkInput" placeholder="Enter URL">
+    <button onclick="addBookmark()">Add Bookmark</button>
+    <ul id="bookmarkList"></ul>
+
+    <!-- Contact Management -->
+    <h2>Contact Management</h2>
+    <form id="contactForm">
+        <label for="contactName">Name:</label>
+        <input type="text" id="contactName" name="contactName"><br><br>
+        <label for="surname">Surname:</label>
+        <input type="text" id="surname" name="surname"><br><br>
+        <label for="phone">Phone:</label>
+        <input type="text" id="phone" name="phone"><br><br>
+        <label for="contactEmail">Email:</label>
+        <input type="email" id="contactEmail" name="contactEmail"><br><br>
+        <button type="submit">Save Contact</button>
+    </form>
+    <ul id="contactList"></ul>
+
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const taskForm = document.getElementById("taskForm");
-            const taskInput = document.getElementById("taskInput");
-            const taskList = document.getElementById("taskList");
-
-            const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-
-            function renderTasks() {
-                taskList.innerHTML = "";
-                tasks.forEach((task, index) => {
-                    const listItem = document.createElement("li");
-                    listItem.textContent = task.name;
-                    taskList.appendChild(listItem);
-                });
+        function addTask() {
+            var taskInput = document.getElementById("taskInput").value;
+            if (taskInput.trim() !== "") {
+                var taskList = JSON.parse(localStorage.getItem("tasks")) || [];
+                taskList.push({ task: taskInput, completed: false });
+                localStorage.setItem("tasks", JSON.stringify(taskList));
+                displayTasks();
+                document.getElementById("taskInput").value = "";
             }
+        }
 
-            renderTasks();
-            taskForm.addEventListener("submit", function(event) {
-                event.preventDefault();
-                if (taskInput.value !== "") {
-                    tasks.push({ name: taskInput.value.trim()});
-                    localStorage.setItem("tasks", JSON.stringify(tasks));
-                    renderTasks();
-                }
+        function displayTasks() {
+            var taskList = JSON.parse(localStorage.getItem("tasks")) || [];
+            var taskListElement = document.getElementById("taskList");
+            taskListElement.innerHTML = "";
+            taskList.forEach(function (task, index) {
+                var listItem = document.createElement("li");
+                listItem.innerHTML = `<input type="checkbox" onchange="toggleTask(${index})" ${task.completed ? "checked" : ""}> ${task.task}`;
+                taskListElement.appendChild(listItem);
             });
+        }
+
+        function toggleTask(index) {
+            var taskList = JSON.parse(localStorage.getItem("tasks")) || [];
+            taskList[index].completed = !taskList[index].completed;
+            localStorage.setItem("tasks", JSON.stringify(taskList));
+            displayTasks();
+        }
+
+        document.getElementById("formData").addEventListener("submit", function(event) {
+            event.preventDefault();
+            var name = document.getElementById("name").value;
+            var email = document.getElementById("email").value;
+            localStorage.setItem("formData", JSON.stringify({ name: name, email: email }));
+            alert("Form data saved successfully!");
         });
+
+        function addBookmark() {
+            var bookmarkInput = document.getElementById("bookmarkInput").value;
+            if (bookmarkInput.trim() !== "") {
+                var bookmarkList = JSON.parse(localStorage.getItem("bookmarks")) || [];
+                bookmarkList.push(bookmarkInput);
+                localStorage.setItem("bookmarks", JSON.stringify(bookmarkList));
+                displayBookmarks();
+                document.getElementById("bookmarkInput").value = "";
+            }
+        }
+
+        function displayBookmarks() {
+            var bookmarkList = JSON.parse(localStorage.getItem("bookmarks")) || [];
+            var bookmarkListElement = document.getElementById("bookmarkList");
+            bookmarkListElement.innerHTML = "";
+            bookmarkList.forEach(function (bookmark) {
+                var listItem = document.createElement("li");
+                listItem.textContent = bookmark;
+                bookmarkListElement.appendChild(listItem);
+            });
+        }
+
+        document.getElementById("contactForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            var name = document.getElementById("contactName").value;
+            var surname = document.getElementById("surname").value;
+            var phone = document.getElementById("phone").value;
+            var email = document.getElementById("contactEmail").value;
+            var contact = { name: name, surname: surname, phone: phone, email: email };
+            var contacts = JSON.parse(localStorage.getItem("contacts")) || [];
+            contacts.push(contact);
+            localStorage.setItem("contacts", JSON.stringify(contacts));
+            displayContacts();
+            document.getElementById("contactForm").reset();
+        });
+
+        function displayContacts() {
+            var contacts = JSON.parse(localStorage.getItem("contacts")) || [];
+            var contactListElement = document.getElementById("contactList");
+            contactListElement.innerHTML = "";
+            contacts.forEach(function (contact) {
+                var listItem = document.createElement("li");
+                listItem.textContent = contact.name + " " + contact.surname + " - " + contact.phone + ", " + contact.email;
+                contactListElement.appendChild(listItem);
+            });
+        }
+
+        displayTasks();
+        displayBookmarks();
+        displayContacts();
     </script>
 </body>
 </html>
